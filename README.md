@@ -26,17 +26,17 @@ services:
       - "traefik.enable=true"
       - "traefik.constraint-label-stack=appwrite"
       - "traefik.docker.network=appwrite"
-      - "traefik.http.services.appwrote_webhook_proxy.loadbalancer.server.port=80"
-      #ws
-      - traefik.http.routers.appwrote_webhook_proxy_ws.entrypoints=appwrite_web
-      - traefik.http.routers.appwrote_webhook_proxy_ws.rule=PathPrefix(`/v1/webhook-proxy`)
-      - traefik.http.routers.appwrote_webhook_proxy_ws.service=appwrote_webhook_proxy
-      # wss
-      - traefik.http.routers.appwrote_webhook_proxy_wss.entrypoints=appwrite_websecure
-      - traefik.http.routers.appwrote_webhook_proxy_wss.rule=PathPrefix(`/v1/webhook-proxy`)
-      - traefik.http.routers.appwrote_webhook_proxy_wss.service=appwrote_webhook_proxy
-      - traefik.http.routers.appwrote_webhook_proxy_wss.tls=true
-      - traefik.http.routers.appwrote_webhook_proxy_wss.tls.certresolver=dns
+      - "traefik.http.services.appwrite_webhook_proxy.loadbalancer.server.port=80"
+      # http
+      - traefik.http.routers.appwrite_webhook_proxy_http.entrypoints=appwrite_web
+      - traefik.http.routers.appwrite_webhook_proxy_http.rule=PathPrefix(`/v1/webhook-proxy`)
+      - traefik.http.routers.appwrite_webhook_proxy_http.service=appwrite_webhook_proxy
+      # https
+      - traefik.http.routers.appwrite_webhook_proxy_https.entrypoints=appwrite_websecure
+      - traefik.http.routers.appwrite_webhook_proxy_https.rule=PathPrefix(`/v1/webhook-proxy`)
+      - traefik.http.routers.appwrite_webhook_proxy_https.service=appwrite_webhook_proxy
+      - traefik.http.routers.appwrite_webhook_proxy_https.tls=true
+      - traefik.http.routers.appwrite_webhook_proxy_https.tls.certresolver=dns
     networks:
       - appwrite
     depends_on:
@@ -86,7 +86,7 @@ docker-compose up --build --force-recreate
 ## Release version
 
 1. `docker login`
-2. `docker build -t meldiron/appwrite-webhook-proxy:v0.0.1 .`
-3. `docker push meldiron/appwrite-webhook-proxy:v0.0.1`
+2. `docker build -t meldiron/appwrite-webhook-proxy:v0.0.2 .`
+3. `docker push meldiron/appwrite-webhook-proxy:v0.0.2`
 
 > Make sure to change version number with releasing new version

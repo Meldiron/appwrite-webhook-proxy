@@ -3,7 +3,7 @@ services:
  appwrite-proxy-stripe:
   build: .
   ports:
-   - 7722:80
+   - 7723:80
   volumes:
    - ./:/usr/src/myapp
   environment:

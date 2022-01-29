@@ -10,45 +10,58 @@ Co\run(function()
 
     $server->handle('/', function(Swoole\Http\Request $swooleRequest, Swoole\Http\Response $swooleResponse)
     {
-        $endpoint = \getenv('WEBHOOK_PROXY_APPWRITE_ENDPOINT');
-        $apiKey = \getenv('WEBHOOK_PROXY_APPWRITE_API_KEY');
-        $projectId = \getenv('WEBHOOK_PROXY_APPWRITE_PROJECT_ID');
-        $functionId = \getenv('WEBHOOK_PROXY_APPWRITE_FUNCTION_ID');
+        try {
+            $endpoint = \getenv('WEBHOOK_PROXY_APPWRITE_ENDPOINT');
+            $apiKey = \getenv('WEBHOOK_PROXY_APPWRITE_API_KEY');
+            $projectId = \getenv('WEBHOOK_PROXY_APPWRITE_PROJECT_ID');
+            $functionId = \getenv('WEBHOOK_PROXY_APPWRITE_FUNCTION_ID');
 
-        $requestBody = [
-            'data' => \json_encode($swooleRequest)
-        ];
+            $requestBody = [
+                'data' => \json_encode([
+                    'method' => $swooleRequest->getMethod(),
+                    'body' => $swooleRequest->getContent(),
+                    'headers' => $swooleRequest->header
+                ])
+            ];
 
-        $ch = \curl_init();
+            $ch = \curl_init();
 
-        $optArray = array(
-            CURLOPT_URL => $endpoint . '/functions/' . $functionId . '/executions',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => \json_encode($requestBody),
-            CURLOPT_HEADEROPT => \CURLHEADER_UNIFIED,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'X-Appwrite-Project: ' . $projectId,
-                'X-Appwrite-Key: ' . $apiKey
-            )
-        );
+            $optArray = array(
+                CURLOPT_URL => $endpoint . '/functions/' . $functionId . '/executions',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => \json_encode($requestBody),
+                CURLOPT_HEADEROPT => \CURLHEADER_UNIFIED,
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'X-Appwrite-Project: ' . $projectId,
+                    'X-Appwrite-Key: ' . $apiKey
+                )
+            );
 
-        \curl_setopt_array($ch, $optArray);
+            \curl_setopt_array($ch, $optArray);
 
-        $result = curl_exec($ch);
-        $response = curl_getinfo($ch, \CURLINFO_HTTP_CODE);
+            $result = curl_exec($ch);
+            $response = curl_getinfo($ch, \CURLINFO_HTTP_CODE);
 
-        $responseObject = [
-            'code' => $response,
-            'error' => \curl_error($ch),
-            'body' => $result
-        ];
+            $responseObject = [
+                'code' => $response,
+                'error' => \curl_error($ch),
+                'body' => $result
+            ];
 
-        \curl_close($ch);
+            \curl_close($ch);
 
-        $swooleResponse->setStatusCode($response);
-        $swooleResponse->end(\json_encode($responseObject));
+            $swooleResponse->setStatusCode($response);
+            $swooleResponse->end(\json_encode($responseObject));
+        } catch(\Throwable $err) {
+            $swooleResponse->setStatusCode(500);
+            $swooleResponse->end(\json_encode([
+                'code' => 500,
+                'error' => 'Unexpected server error.',
+                'body' => []
+            ]));
+        }
     });
 
     $server->start();
