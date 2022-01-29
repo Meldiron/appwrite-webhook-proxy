@@ -14,8 +14,40 @@ _Maintained by core team member, tho 😛_
 
 1. Add webhook proxy container to Appwrite's docker stack. Locate `docker-compose.yml` file inside your `appwrite` folder, and add following section:
 
-```yml
-TODO: add (webhook-proxy)
+```yml                          
+version: '3'
+
+services:
+  appwrite-webhook-proxy:
+    image: meldiron/appwrite-webhook-proxy:v0.0.2
+    container_name: appwrite-webhook-proxy
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label-stack=appwrite"
+      - "traefik.docker.network=appwrite"
+      - "traefik.http.services.appwrote_webhook_proxy.loadbalancer.server.port=80"
+      #ws
+      - traefik.http.routers.appwrote_webhook_proxy_ws.entrypoints=appwrite_web
+      - traefik.http.routers.appwrote_webhook_proxy_ws.rule=PathPrefix(`/v1/webhook-proxy`)
+      - traefik.http.routers.appwrote_webhook_proxy_ws.service=appwrote_webhook_proxy
+      # wss
+      - traefik.http.routers.appwrote_webhook_proxy_wss.entrypoints=appwrite_websecure
+      - traefik.http.routers.appwrote_webhook_proxy_wss.rule=PathPrefix(`/v1/webhook-proxy`)
+      - traefik.http.routers.appwrote_webhook_proxy_wss.service=appwrote_webhook_proxy
+      - traefik.http.routers.appwrote_webhook_proxy_wss.tls=true
+      - traefik.http.routers.appwrote_webhook_proxy_wss.tls.certresolver=dns
+    networks:
+      - appwrite
+    depends_on:
+      - appwrite
+    environment:
+      - WEBHOOK_PROXY_APPWRITE_ENDPOINT
+      - WEBHOOK_PROXY_APPWRITE_PROJECT_ID
+      - WEBHOOK_PROXY_APPWRITE_API_KEY
+      - WEBHOOK_PROXY_APPWRITE_FUNCTION_ID
+  # ...
+# ...
 ```
 
 2. Add webhook proxy configuration into Appwrite's stack. Locate hidden `.env` file inside your `appwrite` folder, and add following variables:
