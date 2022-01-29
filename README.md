@@ -53,7 +53,7 @@ docker-compose up --build --force-recreate
 ## Release version
 
 1. `docker login`
-2. `docker build -t meldiron/appwrite-webhook-proxy:0.0.1 .`
-3. `docker push meldiron/appwrite-webhook-proxy:0.0.1`
+2. `docker build -t meldiron/appwrite-webhook-proxy:v0.0.1 .`
+3. `docker push meldiron/appwrite-webhook-proxy:v0.0.1`
 
 > Make sure to change version number with releasing new version

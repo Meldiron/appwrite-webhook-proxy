@@ -47,6 +47,7 @@ Co\run(function()
 
         \curl_close($ch);
 
+        $swooleResponse->setStatusCode($response);
         $swooleResponse->end(\json_encode($responseObject));
     });
 
