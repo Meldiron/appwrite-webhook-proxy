@@ -1,0 +1,13 @@
+version: "3"
+services:
+ appwrite-proxy-stripe:
+  build: .
+  ports:
+   - 7722:80
+  volumes:
+   - ./:/usr/src/myapp
+  environment:
+   - WEBHOOK_PROXY_APPWRITE_FUNCTION_ID
+   - WEBHOOK_PROXY_APPWRITE_API_KEY
+   - WEBHOOK_PROXY_APPWRITE_PROJECT_ID
+   - WEBHOOK_PROXY_APPWRITE_ENDPOINT

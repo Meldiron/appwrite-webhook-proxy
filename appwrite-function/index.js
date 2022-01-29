@@ -1,0 +1,1 @@
+console.log(process.env.APPWRITE_FUNCTION_DATA);
