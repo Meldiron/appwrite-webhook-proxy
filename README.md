@@ -1,11 +1,12 @@
-![Cover image](/cover.png)
+![Cover image](cover.png)
 
 # Appwrite Webhook Proxy
 
 A simple HTTP server behaving as proxy between webhooks and Appwrite Functions, allowing for instance Stripe payments integration into Appwrite.
 
-> 🚨 This is unofficial 3rd party exception for self-hosted Appwrite server 🚨
-> Maintained by core team member, tho 😛
+**🚨 This is unofficial 3rd party exception for self-hosted Appwrite server 🚨**
+
+_Maintained by core team member, tho 😛_
 
 ## Usage
 
