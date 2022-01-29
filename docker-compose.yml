@@ -1,6 +1,6 @@
 version: "3"
 services:
- appwrite-proxy-stripe:
+ appwrite-webhook-proxy:
   build: .
   ports:
    - 7723:80
