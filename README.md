@@ -14,12 +14,12 @@ _Maintained by core team member, tho 😛_
 
 1. Add webhook proxy container to Appwrite's docker stack. Locate `docker-compose.yml` file inside your `appwrite` folder, and add following section:
 
-```yml                          
-version: '3'
+```yml
+version: "3"
 
 services:
   appwrite-webhook-proxy:
-    image: meldiron/appwrite-webhook-proxy:v0.0.2
+    image: meldiron/appwrite-webhook-proxy:v0.0.3
     container_name: appwrite-webhook-proxy
     restart: unless-stopped
     labels:
