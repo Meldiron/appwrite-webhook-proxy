@@ -21,7 +21,8 @@ Co\run(function()
                     'method' => $swooleRequest->getMethod(),
                     'body' => $swooleRequest->getContent(),
                     'headers' => $swooleRequest->header
-                ])
+                ]),
+                'async' => false
             ];
 
             $ch = \curl_init();
@@ -41,7 +42,8 @@ Co\run(function()
 
             \curl_setopt_array($ch, $optArray);
 
-            $result = curl_exec($ch);
+            $result = \json_decode(curl_exec($ch));
+
             $response = curl_getinfo($ch, \CURLINFO_HTTP_CODE);
 
             $responseObject = [
@@ -55,6 +57,7 @@ Co\run(function()
             $swooleResponse->setStatusCode($response);
             $swooleResponse->end(\json_encode($responseObject));
         } catch(\Throwable $err) {
+            \var_dump($err);
             $swooleResponse->setStatusCode(500);
             $swooleResponse->end(\json_encode([
                 'code' => 500,

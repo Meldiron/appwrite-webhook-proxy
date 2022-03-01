@@ -19,7 +19,7 @@ version: "3"
 
 services:
   appwrite-webhook-proxy:
-    image: meldiron/appwrite-webhook-proxy:v0.0.3
+    image: meldiron/appwrite-webhook-proxy:v0.0.4
     container_name: appwrite-webhook-proxy
     restart: unless-stopped
     labels:
