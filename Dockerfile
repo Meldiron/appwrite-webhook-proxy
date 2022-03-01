@@ -5,4 +5,6 @@ WORKDIR /usr/src/myapp
 
 RUN composer update --ignore-platform-reqs --optimize-autoloader --no-plugins --no-scripts --prefer-dist
 
+EXPOSE 4444
+
 CMD [ "php", "./src/index.php" ]

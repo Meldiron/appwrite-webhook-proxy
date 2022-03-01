@@ -6,7 +6,7 @@ use Swoole\Coroutine\Http\Server;
 
 Co\run(function()
 {
-    $server = new Server('0.0.0.0', 80, false);
+    $server = new Server('0.0.0.0', 4444, false);
 
     $server->handle('/', function(Swoole\Http\Request $swooleRequest, Swoole\Http\Response $swooleResponse)
     {
