@@ -26,7 +26,7 @@ services:
       - "traefik.enable=true"
       - "traefik.constraint-label-stack=appwrite"
       - "traefik.docker.network=appwrite"
-      - "traefik.http.services.appwrite_webhook_proxy.loadbalancer.server.port=80"
+      - "traefik.http.services.appwrite_webhook_proxy.loadbalancer.server.port=4444"
       # http
       - traefik.http.routers.appwrite_webhook_proxy_http.entrypoints=appwrite_web
       - traefik.http.routers.appwrite_webhook_proxy_http.rule=PathPrefix(`/v1/webhook-proxy`)
