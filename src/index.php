@@ -11,16 +11,17 @@ Co\run(function()
     $server->handle('/', function(Swoole\Http\Request $swooleRequest, Swoole\Http\Response $swooleResponse)
     {
         try {
-            $endpoint = \getenv('WEBHOOK_PROXY_APPWRITE_ENDPOINT');
-            $apiKey = \getenv('WEBHOOK_PROXY_APPWRITE_API_KEY');
-            $projectId = \getenv('WEBHOOK_PROXY_APPWRITE_PROJECT_ID');
-            $functionId = \getenv('WEBHOOK_PROXY_APPWRITE_FUNCTION_ID');
+            $endpoint = $swooleRequest->get['endpoint'] ?? \getenv('WEBHOOK_PROXY_APPWRITE_ENDPOINT');
+            $apiKey = $swooleRequest->get['apiKey'] ?? \getenv('WEBHOOK_PROXY_APPWRITE_API_KEY');
+            $projectId = $swooleRequest->get['projectId'] ?? \getenv('WEBHOOK_PROXY_APPWRITE_PROJECT_ID');
+            $functionId = $swooleRequest->get['functionId'] ?? \getenv('WEBHOOK_PROXY_APPWRITE_FUNCTION_ID');
 
             $requestBody = [
                 'data' => \json_encode([
                     'method' => $swooleRequest->getMethod(),
                     'body' => $swooleRequest->getContent(),
-                    'headers' => $swooleRequest->header
+                    'headers' => $swooleRequest->header,
+                    'params' => $swooleRequest->get
                 ]),
                 'async' => false
             ];

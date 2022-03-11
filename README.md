@@ -65,6 +65,15 @@ WEBHOOK_PROXY_APPWRITE_FUNCTION_ID=onStripeWebhook
 
 That's it! You can now visit `http://localhost/v1/webhook-proxy` (replace localhost with domain of Appwrite instance), and it will execute your function. You can see headers, endpoint, body, and pretty much all request information in the execution log, if you used our function tag from step 0.
 
+Environment variables provided in `.env` are only considered as a fallback, if no other value is provided. That means, you can change any of `endpoint`, `projectId`, `apiKey` and `functionId`, simply by providing it in the request **query parameters**. For example:
+
+```
+http://localhost/v1/webhook-proxy?functionId=createPayment
+http://localhost/v1/webhook-proxy?functionId=deletepayment
+
+http://localhost/v1/webhook-proxy?functionId=deleteUser&projectId=awesomeProject&apiKey=abcd....wxyz
+```
+
 ## Contribution
 
 Setup:
