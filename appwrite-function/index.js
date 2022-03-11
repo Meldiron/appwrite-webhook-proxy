@@ -1,1 +1,3 @@
-console.log(process.env.APPWRITE_FUNCTION_DATA);
+module.exports = async (req, res) => {
+    res.json({ payload: req.payload })
+}
