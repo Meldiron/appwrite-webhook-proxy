@@ -19,7 +19,7 @@ version: "3"
 
 services:
   appwrite-webhook-proxy:
-    image: meldiron/appwrite-webhook-proxy:v0.5
+    image: meldiron/appwrite-webhook-proxy:v0.0.5
     container_name: appwrite-webhook-proxy
     restart: unless-stopped
     labels:
@@ -53,13 +53,13 @@ services:
 2. Add webhook proxy configuration into Appwrite's stack. Locate hidden `.env` file inside your `appwrite` folder, and add following variables:
 
 ```
-WEBHOOK_PROXY_APPWRITE_ENDPOINT=http://localhost/v1
+WEBHOOK_PROXY_APPWRITE_ENDPOINT=http://[YOUR_IP]/v1
 WEBHOOK_PROXY_APPWRITE_PROJECT_ID=stripeTest
 WEBHOOK_PROXY_APPWRITE_API_KEY=cb61e6bc3...abafcbb02
 WEBHOOK_PROXY_APPWRITE_FUNCTION_ID=onStripeWebhook
 ```
 
-> Make sure to replace values with your credentials and information
+> Make sure to replace values with your credentials and information. If your endpoint is `localhost`, set the IP to your LAN IP address.
 
 3. Restart Appwrite stack using `docker-compose up -d`
 
